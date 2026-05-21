@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./source
+        working-directory: src/demo
 
     steps:
       - uses: actions/checkout@v4
