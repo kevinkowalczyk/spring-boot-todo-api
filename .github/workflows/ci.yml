@@ -6,6 +6,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./source
 
     steps:
       - uses: actions/checkout@v4
@@ -15,6 +18,8 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+          architecture: x64
+          cache: 'maven'
 
-      - name: Tests ausführen
-        run: ./mvnw verify
+      - name: Build with maven
+        run: ./mvnw -B clean verify --no-transfer-progress
