@@ -48,8 +48,14 @@ public class TodoSaveTest extends IntegrationTest {
 
     @Test
     public void getTodoByIdTest() {
+        Long id = todoRepository.findAll()
+                .stream()
+                .findFirst()
+                .get()
+                .getId();
+
         restTestClient.get()
-                .uri("api/v1/admin/todos/3")
+                .uri("api/v1/admin/todos/" + id)
                 .exchange()
                 .expectBody(Todo.class)
                 .consumeWith(r -> {
