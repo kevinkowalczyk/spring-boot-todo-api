@@ -1,12 +1,16 @@
 package de.htwsaar.stl.demo.todo;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Builder
+@AllArgsConstructor // Required for the Builder. Create Constructor with all Arguments.
+@NoArgsConstructor // Required for JPA Specification. Create Constructor with no Arguments.
 @Entity
 @Table(name = "todo")
 public class Todo {
@@ -32,13 +36,4 @@ public class Todo {
     @Column(name = "started_at", nullable = false)
     private LocalDateTime startedAt;
 
-    public Todo() {}
-
-    public Todo(Long id, String title, String description, boolean done, LocalDateTime startedAt) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.done = done;
-        this.startedAt = startedAt;
-    }
 }
