@@ -7,29 +7,34 @@ import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTe
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.client.RestTestClient;
 
-import java.time.LocalDateTime;
-
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureRestTestClient
-public class TodoSaveTest extends IntegrationConfiguration {
+public class TodoFindTest extends IntegrationConfiguration {
 
     @Autowired
     private RestTestClient restTestClient;
 
     @Test
-    public void postTodoSuccessTest() {
-        Todo todo = Todo.builder()
-                .title("Essen")
-                .description("Restaurant mit Freundin")
-                .done(false)
-                .startedAt(LocalDateTime.parse("2026-05-25T17:45:00"))
-                .build();
+    public void getTodosShouldReturnHttpFoundTest() {
+        restTestClient.get()
+                .uri("api/v1/admin/todos")
+                .exchange()
+                .expectStatus()
+                .isFound();
+    }
 
-        restTestClient.post()
-                .uri("/api/v1/admin")
-                .body(todo)
+    @Test
+    public void getTodoByIdShouldFindTodoWithValidIdTest() {
+        Long id = todoRepository.findAll()
+                .stream()
+                .findFirst()
+                .get()
+                .getId();
+
+        restTestClient.get()
+                .uri("api/v1/admin/todos/" + id)
                 .exchange()
                 .expectBody(Todo.class)
                 .consumeWith(r -> {

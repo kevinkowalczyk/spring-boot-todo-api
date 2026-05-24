@@ -25,7 +25,7 @@ public class TodoController {
     @GetMapping("/todos")
     public ResponseEntity<List<Todo>> findAll() {
         List<Todo> todos = todoService.findAll();
-        return new ResponseEntity<>(todos, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(todos, HttpStatus.FOUND);
     }
 
     @GetMapping("/todos/{id}")
