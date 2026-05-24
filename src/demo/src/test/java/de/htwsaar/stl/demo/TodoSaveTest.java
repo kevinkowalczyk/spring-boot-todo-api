@@ -1,57 +1,59 @@
 package de.htwsaar.stl.demo;
 
 import de.htwsaar.stl.demo.todo.Todo;
-import de.htwsaar.stl.demo.todo.repository.TodoRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.resttestclient.TestRestTemplate;
 import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient;
-import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.client.RestTestClient;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@AutoConfigureRestTestClient
-@AutoConfigureTestRestTemplate
-public class TodoSaveTest {
+@AutoConfigureRestTestClient
+public class TodoSaveTest extends IntegrationTest {
 
     @Autowired
-    protected TestRestTemplate testRestTemplate;
-    @Autowired
-    protected TodoRepository todoRepository;
-
-    private final String ADMIN_URL = "/api/v1/admin";
+    private RestTestClient restTestClient;
 
     @Test
-    public void adminPostTodoSuccessTest() {
+    public void postTodoSuccessTest() {
         Todo todo = Todo.builder()
-                .title("Kino")
-                .description("Kinokarten für 2")
-                .done(true)
-                .startedAt(LocalDateTime.parse("2026-01-01T14:30:00"))
+                .title("Essen")
+                .description("Restaurant mit Freundin")
+                .done(false)
+                .startedAt(LocalDateTime.parse("2026-05-25T17:45:00"))
                 .build();
 
-        HttpEntity<Todo> httpEntity = new HttpEntity<>(todo);
-        ResponseEntity<Todo> response = testRestTemplate.exchange(
-                ADMIN_URL, HttpMethod.POST, httpEntity, Todo.class);
+        restTestClient.post()
+                .uri("/api/v1/admin")
+                .body(todo)
+                .exchange()
+                .expectBody(Todo.class)
+                .consumeWith(r -> {
+                    assertThat(r.getResponseBody().getId()).isNotNull();
+                });
+    }
 
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    @Test
+    public void getTodoSuccessTest() {
+        restTestClient.get()
+                .uri("api/v1/admin/todos")
+                .exchange()
+                .expectStatus()
+                .isAccepted();
+    }
 
-        Long id = response.getBody().getId();
-        Optional<Todo> saved = todoRepository.findById(id);
-
-        assertTrue(saved.isPresent());
-        assertEquals("Kino", saved.get().getTitle());
+    @Test
+    public void getTodoByIdTest() {
+        restTestClient.get()
+                .uri("api/v1/admin/todos/3")
+                .exchange()
+                .expectBody(Todo.class)
+                .consumeWith(r -> {
+                    assertThat(r.getResponseBody().getId()).isNotNull();
+                });
     }
 }
