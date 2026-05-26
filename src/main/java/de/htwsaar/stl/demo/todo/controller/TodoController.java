@@ -22,7 +22,7 @@ public class TodoController {
         return new ResponseEntity<>(savedTodo, HttpStatus.CREATED);
     }
 
-    @GetMapping("/todos")
+    @GetMapping("/todos/")
     public ResponseEntity<List<Todo>> findAll() {
         List<Todo> todos = todoService.findAll();
         return new ResponseEntity<>(todos, HttpStatus.FOUND);

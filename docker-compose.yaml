@@ -6,4 +6,4 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: qwerty
     ports:
-      - "5678:5432"
+      - "5432:5432"

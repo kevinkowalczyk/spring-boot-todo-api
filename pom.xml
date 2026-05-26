@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>de.htwsaar.stl</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>Spring</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>
