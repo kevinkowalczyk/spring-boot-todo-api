@@ -32,22 +32,16 @@ public class TodoService {
     }
 
     public Todo findById(final Long id) {
-        Optional<Todo> foundTodo = todoRepository.findById(id);
-
-        if (foundTodo.isEmpty()) {
-            throw new TodoNotFoundException(id);
-        }
-
-        return foundTodo.get();
+        return todoRepository.findById(id)
+                .orElseThrow(() -> new TodoNotFoundException(id));
     }
 
     public Todo deleteById(final Long id) {
-        Optional<Todo> foundTodo = todoRepository.findById(id);
+        Todo foundTodo = todoRepository.findById(id)
+                .orElseThrow(() -> new TodoNotFoundException(id));
 
-        if (foundTodo.isEmpty()) {
-            throw new TodoNotFoundException(id);
-        }
+        todoRepository.deleteById(id);
 
-        return foundTodo.get();
+        return foundTodo;
     }
 }

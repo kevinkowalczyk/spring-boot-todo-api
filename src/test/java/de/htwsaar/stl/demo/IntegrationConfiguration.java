@@ -19,9 +19,7 @@ public abstract class IntegrationConfiguration {
 
     @BeforeEach
     void setup() {
-        // Hier nicht auf die ID verlassen.
-        // Die Daten werden nach jedem Test wieder gelöscht und eingefügt, nicht die Tabelle selbst.
-        // Bei dem ersten Test ist id = 1, beim 2. dann id = 2, ...
+        // id always changes at startup
         Todo todo = Todo.builder()
                 .title("Kino")
                 .description("Kinokarten für 2")

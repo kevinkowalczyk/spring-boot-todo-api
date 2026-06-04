@@ -1,7 +1,6 @@
 package de.htwsaar.stl.demo;
 
 import de.htwsaar.stl.demo.todo.Todo;
-import de.htwsaar.stl.demo.todo.exceptions.TodoNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient;
@@ -47,5 +46,8 @@ public class TodoDeleteTest extends IntegrationConfiguration {
                 .consumeWith(r -> {
                     assertThat(r.getResponseBody()).isNotNull();
                 });
+
+        // Make sure its actually deleted
+        assertThat(todoRepository.findById(id)).isEmpty();
     }
 }
