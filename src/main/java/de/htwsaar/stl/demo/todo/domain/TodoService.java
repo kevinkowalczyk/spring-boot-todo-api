@@ -1,6 +1,8 @@
 package de.htwsaar.stl.demo.todo.domain;
 
 import de.htwsaar.stl.demo.todo.Todo;
+import de.htwsaar.stl.demo.todo.exceptions.TodoNotFoundException;
+import de.htwsaar.stl.demo.todo.exceptions.TodosNotFoundException;
 import de.htwsaar.stl.demo.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,7 @@ public class TodoService {
         List<Todo> todos = todoRepository.findAll();
 
         if (todos.isEmpty()) {
-            // throw Exception
+            throw new TodosNotFoundException();
         }
 
         return todos;
@@ -33,8 +35,19 @@ public class TodoService {
         Optional<Todo> foundTodo = todoRepository.findById(id);
 
         if (foundTodo.isEmpty()) {
-            // add custom Exception, like TodoNotFoundException(id)
+            throw new TodoNotFoundException(id);
         }
+
+        return foundTodo.get();
+    }
+
+    public Todo deleteById(final Long id) {
+        Optional<Todo> foundTodo = todoRepository.findById(id);
+
+        if (foundTodo.isEmpty()) {
+            throw new TodoNotFoundException(id);
+        }
+
         return foundTodo.get();
     }
 }
