@@ -20,6 +20,6 @@ Kleine REST-API zur Verwaltung von Todos, entwickelt mit Spring Boot.
 - Angular-Frontend
 
 ## Starten
-- git pull github.com/kevinkowalczyk/spring-boot-todo-api
+- git pull https://github.com/kevinkowalczyk/spring-boot-todo-api
 - cd spring-boot-todo-api
 - ./mvnw spring-boot:run
