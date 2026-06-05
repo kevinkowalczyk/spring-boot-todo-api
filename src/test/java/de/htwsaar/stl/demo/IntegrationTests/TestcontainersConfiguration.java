@@ -1,4 +1,4 @@
-package de.htwsaar.stl.demo;
+package de.htwsaar.stl.demo.IntegrationTests;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;

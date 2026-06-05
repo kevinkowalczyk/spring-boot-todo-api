@@ -1,4 +1,4 @@
-package de.htwsaar.stl.demo;
+package de.htwsaar.stl.demo.IntegrationTests;
 
 import de.htwsaar.stl.demo.todo.Todo;
 import de.htwsaar.stl.demo.todo.repository.TodoRepository;
