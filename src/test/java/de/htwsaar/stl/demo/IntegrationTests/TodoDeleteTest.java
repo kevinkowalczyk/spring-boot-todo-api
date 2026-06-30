@@ -17,7 +17,7 @@ public class TodoDeleteTest extends IntegrationConfiguration {
     RestTestClient restTestClient;
 
     @Test
-    public void deleteTodoShouldReturnAcceptedTest() {
+    public void deleteTodoShouldReturnHttpStatusOkTest() {
         Long id = todoRepository.findAll()
                 .stream()
                 .findFirst()
@@ -28,7 +28,7 @@ public class TodoDeleteTest extends IntegrationConfiguration {
                 .uri("api/v1/admin/todos/" + id)
                 .exchange()
                 .expectStatus()
-                .isAccepted();
+                .isOk();
     }
 
     @Test

@@ -17,12 +17,12 @@ public class TodoFindTest extends IntegrationConfiguration {
     private RestTestClient restTestClient;
 
     @Test
-    public void getTodosShouldReturnHttpFoundTest() {
+    public void getTodosShouldReturnHttpStatusOkTest() {
         restTestClient.get()
                 .uri("api/v1/admin/todos")
                 .exchange()
                 .expectStatus()
-                .isFound();
+                .isOk();
     }
 
     @Test
@@ -34,7 +34,7 @@ public class TodoFindTest extends IntegrationConfiguration {
                 .getId();
 
         restTestClient.get()
-                .uri("api/v1/admin/todos/" + id)
+                .uri("api/v1/admin/todos/{id}", id)
                 .exchange()
                 .expectBody(Todo.class)
                 .consumeWith(r -> {

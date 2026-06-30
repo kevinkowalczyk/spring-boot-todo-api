@@ -22,16 +22,6 @@ public class TodoUpdateTest extends IntegrationConfiguration {
 
     @Test
     void putTodoTest() {
-        Todo toBeUpdated = Todo.builder()
-                .id(1L)
-                .title("Essen")
-                .description("Restaurant mit Freundin")
-                .done(false)
-                .startedAt(LocalDateTime.parse("2026-05-25T17:45:00"))
-                .build();
-
-        todoRepository.save(toBeUpdated);
-
         Todo newTodo = Todo.builder()
                 .title("Freizeitpark")
                 .description("Achterbahn fahren")
@@ -39,8 +29,14 @@ public class TodoUpdateTest extends IntegrationConfiguration {
                 .startedAt(LocalDateTime.parse("2026-05-28T10:30:00"))
                 .build();
 
+        Todo toBeUpdated = todoRepository
+                .findAll()
+                .stream()
+                .findFirst()
+                .get();
+
         Todo updatedTodo = restTestClient.put()
-                .uri("/api/v1/admin/todos/{id}", 1L)
+                .uri("/api/v1/admin/todos/{id}", toBeUpdated.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(newTodo)
                 .exchange()

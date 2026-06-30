@@ -19,6 +19,23 @@ public class TodoSaveTest extends IntegrationConfiguration {
     private RestTestClient restTestClient;
 
     @Test
+    public void postTodosShouldReturnHttpStatusCreatedTest() {
+        Todo todo = Todo.builder()
+                .title("Essen")
+                .description("Restaurant mit Freundin")
+                .done(false)
+                .startedAt(LocalDateTime.parse("2026-05-25T17:45:00"))
+                .build();
+
+        restTestClient.post()
+                .uri("/api/v1/admin")
+                .body(todo)
+                .exchange()
+                .expectStatus()
+                .isCreated();
+    }
+
+    @Test
     public void postTodoSuccessTest() {
         Todo todo = Todo.builder()
                 .title("Essen")
