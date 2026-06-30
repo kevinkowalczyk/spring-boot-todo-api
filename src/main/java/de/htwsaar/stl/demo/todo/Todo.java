@@ -1,10 +1,7 @@
 package de.htwsaar.stl.demo.todo;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -15,24 +12,24 @@ import java.time.LocalDateTime;
 @Table(name = "todo")
 public class Todo {
 
-    @Getter
+    @Getter @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Getter
+    @Getter @Setter
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Getter
+    @Getter @Setter
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Getter
+    @Getter @Setter
     @Column(name = "done", nullable = false)
     private boolean done;
 
-    @Getter
+    @Getter @Setter
     @Column(name = "started_at", nullable = false)
     private LocalDateTime startedAt;
 

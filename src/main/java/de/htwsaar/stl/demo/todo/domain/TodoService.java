@@ -7,6 +7,7 @@ import de.htwsaar.stl.demo.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -42,5 +43,22 @@ public class TodoService {
         todoRepository.deleteById(id);
 
         return foundTodo;
+    }
+
+    public Todo updateById(final Long id, final Todo newTodo) {
+        Todo todo = todoRepository.findById(id)
+                .orElseThrow(() -> new TodoNotFoundException(id));
+
+        String updatedTitle = newTodo.getTitle();
+        String updatedDescription = newTodo.getDescription();
+        LocalDateTime updatedTime = newTodo.getStartedAt();
+        boolean updatedDone = newTodo.isDone();
+
+        todo.setTitle(updatedTitle);
+        todo.setDescription(updatedDescription);
+        todo.setStartedAt(updatedTime);
+        todo.setDone(updatedDone);
+
+        return todoRepository.save(todo);
     }
 }
