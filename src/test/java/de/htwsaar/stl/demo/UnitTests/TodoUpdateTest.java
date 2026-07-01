@@ -43,7 +43,6 @@ public class TodoUpdateTest {
                 .build();
 
         when(todoRepository.findById(1L)).thenReturn(Optional.of(toBeUpdated));
-        when(todoRepository.save(toBeUpdated)).thenReturn(toBeUpdated);
 
         todoService.updateById(1L, updatedTodo);
 

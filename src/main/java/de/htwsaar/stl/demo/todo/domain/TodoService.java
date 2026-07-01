@@ -1,11 +1,13 @@
 package de.htwsaar.stl.demo.todo.domain;
 
 import de.htwsaar.stl.demo.todo.Todo;
+import de.htwsaar.stl.demo.todo.exceptions.TodoAlreadyExistsException;
 import de.htwsaar.stl.demo.todo.exceptions.TodoNotFoundException;
 import de.htwsaar.stl.demo.todo.exceptions.TodosNotFoundException;
 import de.htwsaar.stl.demo.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,12 +17,18 @@ import java.util.List;
 public class TodoService {
     private final TodoRepository todoRepository;
 
+    @Transactional
     public Todo saveTodo(final Todo todo) {
-        Todo savedTodo = todoRepository.save(todo);
+//        Long id = todo.getId();
+//
+//        if (todoRepository.existsById(id)) {
+//            throw new TodoAlreadyExistsException(id);
+//        }
 
-        return savedTodo;
+        return todoRepository.save(todo);
     }
 
+    @Transactional(readOnly = true)
     public List<Todo> findAll() {
         List<Todo> todos = todoRepository.findAll();
 
@@ -31,11 +39,13 @@ public class TodoService {
         return todos;
     }
 
+    @Transactional(readOnly = true)
     public Todo findById(final Long id) {
         return todoRepository.findById(id)
                 .orElseThrow(() -> new TodoNotFoundException(id));
     }
 
+    @Transactional
     public Todo deleteById(final Long id) {
         Todo foundTodo = todoRepository.findById(id)
                 .orElseThrow(() -> new TodoNotFoundException(id));
@@ -45,20 +55,13 @@ public class TodoService {
         return foundTodo;
     }
 
+    @Transactional
     public Todo updateById(final Long id, final Todo newTodo) {
         Todo todo = todoRepository.findById(id)
                 .orElseThrow(() -> new TodoNotFoundException(id));
 
-        String updatedTitle = newTodo.getTitle();
-        String updatedDescription = newTodo.getDescription();
-        LocalDateTime updatedTime = newTodo.getStartedAt();
-        boolean updatedDone = newTodo.isDone();
+        todo.updateFrom(newTodo);
 
-        todo.setTitle(updatedTitle);
-        todo.setDescription(updatedDescription);
-        todo.setStartedAt(updatedTime);
-        todo.setDone(updatedDone);
-
-        return todoRepository.save(todo);
+        return todo;
     }
 }
