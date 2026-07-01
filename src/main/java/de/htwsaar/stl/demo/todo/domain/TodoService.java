@@ -1,7 +1,6 @@
 package de.htwsaar.stl.demo.todo.domain;
 
 import de.htwsaar.stl.demo.todo.Todo;
-import de.htwsaar.stl.demo.todo.exceptions.TodoAlreadyExistsException;
 import de.htwsaar.stl.demo.todo.exceptions.TodoNotFoundException;
 import de.htwsaar.stl.demo.todo.exceptions.TodosNotFoundException;
 import de.htwsaar.stl.demo.todo.repository.TodoRepository;
@@ -9,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,12 +17,6 @@ public class TodoService {
 
     @Transactional
     public Todo saveTodo(final Todo todo) {
-//        Long id = todo.getId();
-//
-//        if (todoRepository.existsById(id)) {
-//            throw new TodoAlreadyExistsException(id);
-//        }
-
         return todoRepository.save(todo);
     }
 

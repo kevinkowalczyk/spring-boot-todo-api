@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureRestTestClient
-public class TodoUpdateTest extends IntegrationConfiguration {
+public class TodoUpdateIntegrationTest extends IntegrationConfiguration {
 
     @Autowired
     private RestTestClient restTestClient;
