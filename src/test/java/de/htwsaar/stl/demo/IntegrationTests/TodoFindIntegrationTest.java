@@ -11,43 +11,34 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureRestTestClient
-public class TodoDeleteTest extends IntegrationConfiguration {
+public class TodoFindIntegrationTest extends IntegrationConfiguration {
 
     @Autowired
-    RestTestClient restTestClient;
+    private RestTestClient restTestClient;
 
     @Test
-    public void deleteTodoShouldReturnHttpStatusOkTest() {
-        Long id = todoRepository.findAll()
-                .stream()
-                .findFirst()
-                .get()
-                .getId();
-
-        restTestClient.delete()
-                .uri("api/v1/admin/todos/" + id)
+    public void getTodosShouldReturnHttpStatusOkTest() {
+        restTestClient.get()
+                .uri("api/v1/admin/todos")
                 .exchange()
                 .expectStatus()
                 .isOk();
     }
 
     @Test
-    public void deleteTodoShouldReturnTodoTest() {
+    public void getTodoByIdShouldFindTodoWithValidIdTest() {
         Long id = todoRepository.findAll()
                 .stream()
                 .findFirst()
                 .get()
                 .getId();
 
-        restTestClient.delete()
-                .uri("api/v1/admin/todos/" + id)
+        restTestClient.get()
+                .uri("api/v1/admin/todos/{id}", id)
                 .exchange()
                 .expectBody(Todo.class)
                 .consumeWith(r -> {
-                    assertThat(r.getResponseBody()).isNotNull();
+                    assertThat(r.getResponseBody().getId()).isNotNull();
                 });
-
-        // Make sure its actually deleted
-        assertThat(todoRepository.findById(id)).isEmpty();
     }
 }

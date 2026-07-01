@@ -13,7 +13,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureRestTestClient
-public class TodoSaveTest extends IntegrationConfiguration {
+public class TodoSaveIntegrationTest extends IntegrationConfiguration {
 
     @Autowired
     private RestTestClient restTestClient;

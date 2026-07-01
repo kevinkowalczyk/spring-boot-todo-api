@@ -33,4 +33,10 @@ public class Todo {
     @Column(name = "started_at", nullable = false)
     private LocalDateTime startedAt;
 
+    public void updateFrom(Todo other) {
+        this.title = other.getTitle();
+        this.description = other.getDescription();
+        this.done = other.isDone();
+        this.startedAt = other.getStartedAt();
+    }
 }
